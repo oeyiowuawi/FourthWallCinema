@@ -1,12 +1,12 @@
 class ShowTime < ApplicationRecord
   belongs_to :movie
 
-  monetize :price_cents
 
   validates :price_cents, presence: true
   validates :movie_id, presence: true
   validates :time, presence: true
   validate :time_is_in_the_future
+  monetize :price_cents, allow_nil: false, numericality: { greater_than_or_equal_to: 0 }
 
   private
 

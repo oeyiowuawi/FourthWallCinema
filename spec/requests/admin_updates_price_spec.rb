@@ -9,11 +9,11 @@ describe Admin::ShowTimesController, type: :request do
         show_time = create(:show_time, movie: movie, time: DateTime.current + 1.day, price_cents: 20000, )
         headers = { 'Accept' => 'application/json' }
 
-        post "/admin/movies/#{movie.slug}/show_times/#{show_time.id}",
-              params: { price_cent: "2999"},
+        put "/admin/movies/#{movie.slug}/show_times/#{show_time.id}",
+              params: { price_cents: "2999"},
               headers: headers
-        
-        expect(response).to have_http_code(200)
+
+        expect(response).to have_http_status(200)
       end
     end
   end
