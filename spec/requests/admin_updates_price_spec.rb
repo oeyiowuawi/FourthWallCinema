@@ -6,7 +6,7 @@ describe Admin::ShowTimesController, type: :request do
     context "when price is updated succesfully" do
       it "returns a sucess status" do
         movie = create(:movie, name: "F9", slug: "family-9")
-        show_time = create(:show_time, movie: movie, time: DateTime.current + 1.day, price_cent: 20000, )
+        show_time = create(:show_time, movie: movie, time: DateTime.current + 1.day, price_cents: 20000, )
         headers = { 'Accept' => 'application/json' }
 
         post "/admin/movies/#{movie.slug}/show_times/#{show_time.id}",
