@@ -6,4 +6,10 @@ Rails.application.routes.draw do
       resources :show_times, only: [:update]
     end
   end
+
+  namespace :customer do 
+    namespace :v1 do
+      resources :movies, only: [:index]
+    end
+  end
 end

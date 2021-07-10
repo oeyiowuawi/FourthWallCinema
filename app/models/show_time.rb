@@ -8,6 +8,8 @@ class ShowTime < ApplicationRecord
   validate :time_is_in_the_future
   monetize :price_cents, allow_nil: false, numericality: { greater_than_or_equal_to: 0 }
 
+  scope :upcoming, -> { where("show_times.time > ?", DateTime.current)}
+
   private
 
   def time_is_in_the_future
