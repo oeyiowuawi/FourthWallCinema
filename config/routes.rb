@@ -9,7 +9,9 @@ Rails.application.routes.draw do
 
   namespace :customer do 
     namespace :v1 do
-      resources :movies, only: [:index, :show]
+      resources :movies, only: [:index, :show] do
+        resources :reviews, only: [:create]
+      end
     end
   end
 end

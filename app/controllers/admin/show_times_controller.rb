@@ -6,7 +6,7 @@ class Admin::ShowTimesController < ApplicationController
     if show_time.update(show_time_params)
       render json: { success: true, show_time: show_time }, status: 200
     else
-      render json: { success: false, errors: show_time.errors }, status: 200
+      render json: { success: false, errors: show_time.errors }, status: 422
     end
   end
 
@@ -26,7 +26,7 @@ class Admin::ShowTimesController < ApplicationController
 
   def ensure_movie
     unless movie.present?
-      render json: { message: "Can not find movie. Please provide the right details"},
+      render json: { success: false, message: "Can not find movie. Please provide the right details"},
             status: 404
     end
   end

@@ -1,5 +1,6 @@
 class Movie < ApplicationRecord
   has_many :show_times
+  has_many :reviews
 
   validates :slug, presence: true
   validates :imdb_id, presence: true
