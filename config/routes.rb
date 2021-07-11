@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     resources :movies, only: [] do
       resources :show_times, only: [:update]
     end
+    resources :sessions, only: [:create]
   end
 
   namespace :customer do 

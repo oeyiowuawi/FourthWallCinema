@@ -1,4 +1,5 @@
 class Admin::ShowTimesController < ApplicationController
+  before_action :authenticate
   before_action :ensure_movie
   before_action :ensure_show_time
 

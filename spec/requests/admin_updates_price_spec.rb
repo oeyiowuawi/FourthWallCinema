@@ -5,9 +5,11 @@ describe Admin::ShowTimesController, type: :request do
   describe "PUT update" do
     context "when price is updated succesfully" do
       it "returns a success status" do
+        user = create(:user, email: "eyiolekan@gmail.com")
         movie = create(:movie, name: "F9", slug: "family-9")
         show_time = create(:show_time, movie: movie, time: DateTime.current + 1.day, price_cents: 20000)
-        headers = { 'Accept' => 'application/json' }
+        token = token_generator(user)
+        headers = { 'Accept' => 'application/json', "AUTHORIZATION" => token }
 
         put "/admin/movies/#{movie.slug}/show_times/#{show_time.id}",
               params: { price_cents: "2999"},
@@ -17,10 +19,11 @@ describe Admin::ShowTimesController, type: :request do
       end
 
       it "returns the correct price_cents" do
+        user = create(:user, email: "eyiolekan@gmail.com")
         movie = create(:movie, name: "F9", slug: "family-9")
         show_time = create(:show_time, movie: movie, time: DateTime.current + 1.day, price_cents: 20000, )
-        headers = { 'Accept' => 'application/json' }
-
+        token = token_generator(user)
+        headers = { 'Accept' => 'application/json', "AUTHORIZATION" => token }
         put "/admin/movies/#{movie.slug}/show_times/#{show_time.id}",
               params: { price_cents: "2999"},
               headers: headers
@@ -31,10 +34,12 @@ describe Admin::ShowTimesController, type: :request do
 
     context "when time is updated succesfully" do
       it "returns a success status" do
+        user = create(:user, email: "eyiolekan@gmail.com")
         movie = create(:movie, name: "F9", slug: "family-9")
         show_time = create(:show_time, movie: movie, time: DateTime.current + 1.day, price_cents: 20000)
         new_time = (DateTime.current + 2.day).to_s
-        headers = { 'Accept' => 'application/json' }
+        token = token_generator(user)
+        headers = { 'Accept' => 'application/json', "AUTHORIZATION" => token }
 
         put "/admin/movies/#{movie.slug}/show_times/#{show_time.id}",
               params: { time: new_time },
@@ -44,10 +49,12 @@ describe Admin::ShowTimesController, type: :request do
       end
 
       it "returns the correct time" do
+        user = create(:user, email: "eyiolekan@gmail.com")
         movie = create(:movie, name: "F9", slug: "family-9")
         show_time = create(:show_time, movie: movie, time: DateTime.current + 1.day, price_cents: 20000)
         new_time = (DateTime.current + 2.day).to_s
-        headers = { 'Accept' => 'application/json' }
+        token = token_generator(user)
+        headers = { 'Accept' => 'application/json', "AUTHORIZATION" => token }
 
         put "/admin/movies/#{movie.slug}/show_times/#{show_time.id}",
               params: { time: new_time },
@@ -60,10 +67,12 @@ describe Admin::ShowTimesController, type: :request do
 
     context "when time is not successful" do
       it "returns the correct error message" do
+        user = create(:user, email: "eyiolekan@gmail.com")
         movie = create(:movie, name: "F9", slug: "family-9")
         show_time = create(:show_time, movie: movie, time: DateTime.current + 1.day, price_cents: 20000)
         new_time = (DateTime.current - 2.day).to_s
-        headers = { 'Accept' => 'application/json' }
+        token = token_generator(user)
+        headers = { 'Accept' => 'application/json', "AUTHORIZATION" => token }
 
         put "/admin/movies/#{movie.slug}/show_times/#{show_time.id}",
               params: { time: new_time },
@@ -77,5 +86,9 @@ describe Admin::ShowTimesController, type: :request do
 
   def json_response
     JSON.parse(response.body)
+  end
+
+  def token_generator(user)
+    JsonWebToken.encode({ user_id: user.id }, 1.minutes.from_now)
   end
 end
